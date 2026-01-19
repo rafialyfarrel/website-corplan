@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 import RHRGreenIdea from "./RHRGreenIdea";
 import NavBar from "../components/Navbar";
 
@@ -78,6 +79,38 @@ const topics = [
 function RHRPublication() {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [activeSection, setActiveSection] = useState("overview");
+  const [expandedCard, setExpandedCard] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const heroRef = useRef(null);
+
+  // Page load animation
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(heroRef.current, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out",
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const handleCardClick = (pubId) => {
+    if (isMobile) {
+      setExpandedCard(expandedCard === pubId ? null : pubId);
+    }
+  };
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-black">
@@ -85,7 +118,7 @@ function RHRPublication() {
 
       {/* Hero Section */}
       <section className="relative w-full bg-black pt-16 sm:pt-20">
-        <div className="container mx-auto px-4 sm:px-5 py-8 sm:py-12">
+        <div ref={heroRef} className="container mx-auto px-4 sm:px-5 py-8 sm:py-12">
           <div className="text-center mb-8 sm:mb-12">
             <AnimatedTitle
               title="Publications"
@@ -102,9 +135,16 @@ function RHRPublication() {
             {publications.map((pub) => (
               <div
                 key={pub.id}
-                className="group relative bg-gray-900 border border-gray-800 rounded-lg sm:rounded-xl overflow-hidden transition-all duration-500 hover:border-gray-600 hover:shadow-2xl hover:shadow-white/10"
-                onMouseEnter={() => setHoveredCard(pub.id)}
-                onMouseLeave={() => setHoveredCard(null)}
+                className={`group relative bg-gray-900 border border-gray-800 rounded-lg sm:rounded-xl overflow-hidden hover:border-gray-600 hover:shadow-2xl hover:shadow-white/10 ${
+                  isMobile && expandedCard === pub.id
+                    ? "fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90%] max-w-md max-h-[80vh] overflow-y-auto animate-popup"
+                    : isMobile
+                    ? ""
+                    : "transition-all duration-300"
+                }`}
+                onMouseEnter={() => !isMobile && setHoveredCard(pub.id)}
+                onMouseLeave={() => !isMobile && setHoveredCard(null)}
+                onClick={() => handleCardClick(pub.id)}
               >
                 {/* Gradient Background */}
                 <div
@@ -113,55 +153,123 @@ function RHRPublication() {
 
                 {/* Content */}
                 <div className="relative p-4 sm:p-5 md:p-6">
-                  <div className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 transform group-hover:scale-110 transition-transform duration-500">
-                    {pub.icon}
-                  </div>
+                  {/* Minimized Mobile View */}
+                  {isMobile && expandedCard !== pub.id ? (
+                    <div className="flex items-center gap-4">
+                      <div className="text-3xl flex-shrink-0">
+                        {pub.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-white text-base font-light tracking-wide mb-1 truncate">
+                          {pub.title}
+                        </h3>
+                        <p className="text-gray-400 text-xs font-light tracking-wider truncate">
+                          {pub.subtitle}
+                        </p>
+                      </div>
+                      <svg
+                        className="w-5 h-5 text-gray-400 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  ) : (
+                    /* Full View (Desktop or Expanded Mobile) */
+                    <>
+                      {isMobile && expandedCard === pub.id && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedCard(null);
+                          }}
+                          className="absolute top-4 right-4 text-gray-400 hover:text-white z-10"
+                        >
+                          <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      )}
 
-                  <h3 className="text-white text-base sm:text-lg md:text-xl font-light tracking-wide mb-1.5 sm:mb-2">
-                    {pub.title}
-                  </h3>
+                      <div className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4">
+                        {pub.icon}
+                      </div>
 
-                  <p className="text-gray-400 text-xs sm:text-sm font-light tracking-wider mb-2 sm:mb-3">
-                    {pub.subtitle}
-                  </p>
+                      <h3 className="text-white text-base sm:text-lg md:text-xl font-light tracking-wide mb-1.5 sm:mb-2">
+                        {pub.title}
+                      </h3>
 
-                  <p className="text-gray-500 text-xs sm:text-sm font-light leading-relaxed mb-4 sm:mb-5 line-clamp-2 sm:line-clamp-none">
-                    {pub.description}
-                  </p>
+                      <p className="text-gray-400 text-xs sm:text-sm font-light tracking-wider mb-2 sm:mb-3">
+                        {pub.subtitle}
+                      </p>
 
-                  <a
-                    href={pub.driveLink}
-                    download={
-                      pub.id === 1 ? "template_jurnal.docx" :
-                      pub.id === 2 ? "presentasi-pre-corplan.pptx" :
-                      pub.id === 3 ? "presentasi-corplan.pptx" : undefined
-                    }
-                    className="inline-flex items-center gap-2 text-white bg-transparent border border-gray-700 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-light tracking-wider transition-all duration-300 hover:bg-white hover:text-black hover:border-white"
-                  >
-                    <svg
-                      className="w-3.5 h-3.5 sm:w-4 sm:h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                    Access Files
-                  </a>
+                      <p className="text-gray-500 text-xs sm:text-sm font-light leading-relaxed mb-4 sm:mb-5">
+                        {pub.description}
+                      </p>
+
+                      <a
+                        href={pub.driveLink}
+                        download={
+                          pub.id === 1 ? "template_jurnal.docx" :
+                          pub.id === 2 ? "presentasi-pre-corplan.pptx" :
+                          pub.id === 3 ? "presentasi-corplan.pptx" : undefined
+                        }
+                        onClick={(e) => isMobile && e.stopPropagation()}
+                        className="inline-flex items-center gap-2 text-white bg-transparent border border-gray-700 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-light tracking-wider transition-all duration-300 hover:bg-white hover:text-black hover:border-white"
+                      >
+                        <svg
+                          className="w-3.5 h-3.5 sm:w-4 sm:h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M13 7l5 5m0 0l-5 5m5-5H6"
+                          />
+                        </svg>
+                        Access Files
+                      </a>
+                    </>
+                  )}
                 </div>
 
-                {/* Hover Border Effect */}
-                <div
-                  className={`absolute inset-0 border-2 border-white rounded-lg sm:rounded-xl pointer-events-none transition-opacity duration-300 ${hoveredCard === pub.id ? "opacity-100" : "opacity-0"}`}
-                />
+                {/* Hover Border Effect (Desktop only) */}
+                {!isMobile && (
+                  <div
+                    className={`absolute inset-0 border-2 border-white rounded-lg sm:rounded-xl pointer-events-none transition-opacity duration-300 ${hoveredCard === pub.id ? "opacity-100" : "opacity-0"}`}
+                  />
+                )}
               </div>
             ))}
           </div>
+
+          {/* Backdrop for expanded mobile card */}
+          {isMobile && expandedCard !== null && (
+            <div
+              className="fixed inset-0 bg-black/80 z-40 animate-fadeIn"
+              onClick={() => setExpandedCard(null)}
+            />
+          )}
 
           {/* RHR Root & Rise Idea Section */}
           <div className="max-w-7xl mx-auto">

@@ -9,7 +9,7 @@ const papers = [
     id: 1,
     title: "Sustainability dalam hubungan dengan metode dan teknik penilaian",
     author: "Halim Rusli , Kantor Pusat",
-    image: "/img/papers/paper1.jpg",
+    image: "/img/papers/paper1.svg",
     driveLink:
       "https://drive.google.com/file/d/1uwWlD8Yu6v0oQd_rOxngrymbdZIY2i3o/view?usp=drive_link",
     description: "Exploring eco-friendly practices in corporate environments",
@@ -18,7 +18,7 @@ const papers = [
     id: 2,
     title: "Sustainability dalam kegiatan Perkantoran dan Kepegawaian RHR",
     author: "Pamela Ribka, Kantor Pusat",
-    image: "/img/papers/paper2.jpg",
+    image: "/img/papers/paper2.svg",
     driveLink:
       "https://docs.google.com/presentation/d/1NfPiHB_Bef4E589rL2WdajzC9bBaqdpT/edit?usp=drive_link&ouid=112233642586268936798&rtpof=true&sd=true",
     description: "A comprehensive analysis of emission reduction methods",
@@ -27,7 +27,7 @@ const papers = [
     id: 3,
     title: "Sustainability dalam hubungan dengan metode dan teknik penilaian",
     author: "Nurul Hidayat, Kantor Cabang Medan",
-    image: "/img/papers/paper3.jpg",
+    image: "/img/papers/paper3.svg",
     driveLink:
       "https://docs.google.com/presentation/d/1n9FC4CnYfwIkJWNBRfqnE-vkf4xP4qQv/edit?usp=drive_link&ouid=112233642586268936798&rtpof=true&sd=true",
     description: "Leveraging technology for sustainable business practices",
@@ -36,7 +36,7 @@ const papers = [
     id: 4,
     title: "Sustainability Kepegawaian dan Perkantoran",
     author: "Subarno, Kantor Cabang Yogyakarta",
-    image: "/img/papers/paper4.jpg",
+    image: "/img/papers/paper4.svg",
     driveLink:
       "https://docs.google.com/presentation/d/1z1yQJK_tl63X7jDIInUnYU2Pe1GjlCOt/edit?usp=drive_link&ouid=112233642586268936798&rtpof=true&sd=true",
     description: "Developing robust assessment methodologies",
@@ -45,7 +45,7 @@ const papers = [
     id: 5,
     title: "Sustainability Dalam Hubungan Dengan Metode Dan Teknik Penilaian",
     author: "Jamaluddin Al Afgani, Kantor Cabang Makassar",
-    image: "/img/papers/paper5.jpg",
+    image: "/img/papers/paper5.svg",
     driveLink:
       "https://docs.google.com/presentation/d/1MxJizcMrIMkA9_764n1ptkphOip1loJc/edit?usp=drive_link&ouid=112233642586268936798&rtpof=true&sd=true",
     description: "Implementing circular economy concepts",
@@ -54,7 +54,7 @@ const papers = [
     id: 6,
     title: "Sustainability dalam hubungan efisiensi anggaran",
     author: "Henry Setyawan Oktavianus, Kantor Cabang Surabaya",
-    image: "/img/papers/paper6.jpg",
+    image: "/img/papers/paper6.svg",
     driveLink:
       "https://drive.google.com/file/d/1Tdz1uAf_eBPhN_2kBlhwsr9UWGPhsa4b/view?usp=drive_link",
     description: "Transitioning to sustainable energy sources",
@@ -64,7 +64,7 @@ const papers = [
     title:
       "Sustainability dalam hubungan dengan proses dalam pelaksanaan penilaian",
     author: "Nurmiyanti, Kantor Cabang Semarang",
-    image: "/img/papers/paper6.jpg",
+    image: "/img/papers/paper7.svg",
     driveLink:
       "https://docs.google.com/presentation/d/17xRYGCA5ZBkQFnUqG7uopfUn7ow5Gnbp/edit?usp=drive_link&ouid=112233642586268936798&rtpof=true&sd=true",
     description: "Transitioning to sustainable energy sources",
@@ -74,7 +74,7 @@ const papers = [
     title:
       "Sustainability dalam hubungan dengan proses dalam pelaksanaan penilaian",
     author: "Eni Sumansari N, Kantor Cabang Bandung",
-    image: "/img/papers/paper6.jpg",
+    image: "/img/papers/paper8.svg",
     driveLink:
       "https://docs.google.com/presentation/d/17CbEd-i0tdtqXjDdtTnunhmnn0PQ7cRx/edit?usp=drive_link&ouid=112233642586268936798&rtpof=true&sd=true",
     description: "Transitioning to sustainable energy sources",
