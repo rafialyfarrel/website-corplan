@@ -29,11 +29,20 @@ const Hero = () => {
         id="hero-frame"
         className="relative z-10 w-full h-full overflow-hidden rounded-lg bg-black"
       >
-        <img
-          src="/img/hero.JPG"
-          alt="Corporate Planning 2026"
-          className="absolute left-0 top-0 size-full object-contain object-center"
-        />
+        <picture>
+          {/* Mobile */}
+          <source
+            media="(max-width: 768px)"
+            srcSet="/img/hero-mobile.JPG"
+          />
+
+          {/* Desktop fallback */}
+          <img
+            src="/img/hero.JPG"
+            alt="Corporate Planning 2026"
+            className="absolute left-0 top-0 size-full object-contain object-center"
+          />
+        </picture>
 
         {/* Mobile-optimized text overlay - uncomment if needed */}
         {/* <div className="absolute left-0 top-0 z-40 size-full">
