@@ -87,45 +87,45 @@ function RundownKegiatan() {
 
       <div
         ref={heroRef}
-        className="relative mt-20 flex h-dvh w-screen flex-col items-center justify-center overflow-hidden"
+        className="relative mt-16 sm:mt-20 flex min-h-[40vh] sm:min-h-[50vh] w-screen flex-col items-center justify-center overflow-hidden py-8 sm:py-12"
       >
-        <div className="px-5 text-center sm:px-10">
-          <div className="text-center mb-16">
+        <div className="px-4 text-center sm:px-10">
+          <div className="text-center mb-6 sm:mb-10">
             <AnimatedTitle
               title={event_name}
-              containerClass="text-center mb-8"
+              containerClass="text-center mb-4 sm:mb-8 !text-4xl sm:!text-6xl md:!text-7xl"
             />
           </div>
-          <p className="mb-5 mt-5 max-w-4xl mx-auto text-lg font-light tracking-wide text-gray-400">
+          <p className="mb-3 mt-3 max-w-4xl mx-auto text-sm sm:text-base md:text-lg font-light tracking-wide text-gray-400">
             Jadwal lengkap kegiatan Corporate Planning KJPP RHR 2026
           </p>
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-5 pb-24 sm:px-10">
-        <div className="text-center mb-16">
-          <AnimatedTitle title="Rundown " containerClass="text-center mb-8" />
-          <p className="text-gray-300 mt-5 text-xl max-w-3xl mx-auto font-light tracking-wide leading-relaxed">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-12 sm:px-10 sm:pb-24">
+        <div className="text-center mb-6 sm:mb-12">
+          <AnimatedTitle title="Rundown " containerClass="text-center mb-4 sm:mb-8 !text-3xl sm:!text-5xl md:!text-6xl" />
+          <p className="text-gray-300 mt-3 text-sm sm:text-base md:text-lg max-w-3xl mx-auto font-light tracking-wide leading-relaxed">
             The event of Corporate Planning KJPP RHR 2026 :
           </p>
         </div>
 
-        <div className="mb-8 flex flex-wrap gap-2">
+        <div className="mb-4 sm:mb-8 flex flex-wrap gap-1.5 sm:gap-2">
           <button
             onClick={() => setSelectedDay("pra")}
-            className={`rounded-lg px-6 py-3 font-medium transition-all ${
+            className={`rounded-lg px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all ${
               selectedDay === "pra"
                 ? "bg-[#72b851] text-white shadow-lg"
                 : "bg-gray-800 text-gray-400 hover:bg-gray-700"
             }`}
           >
-            Pra Corporate Planning
+            Pra Corplan
           </button>
           {corporate_planning.days.map((day, index) => (
             <button
               key={index}
               onClick={() => setSelectedDay(`day${index + 1}`)}
-              className={`rounded-lg px-6 py-3 font-medium transition-all ${
+              className={`rounded-lg px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all ${
                 selectedDay === `day${index + 1}`
                   ? "bg-[#72b851] text-white shadow-lg"
                   : "bg-gray-800 text-gray-400 hover:bg-gray-700"
@@ -136,31 +136,55 @@ function RundownKegiatan() {
           ))}
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-b from-gray-900/80 to-black/80 p-6 backdrop-blur-sm border border-gray-800">
-          <div className="mb-6">
-            <h3 className="text-2xl font-bold text-violet-400 mb-2">
+        <div className="rounded-xl sm:rounded-2xl bg-gradient-to-b from-gray-900/80 to-black/80 p-3 sm:p-5 backdrop-blur-sm border border-gray-800">
+          <div className="mb-3 sm:mb-5">
+            <h3 className="text-lg sm:text-xl font-bold text-violet-400 mb-1">
               {currentAgenda.day}
             </h3>
-            <p className="text-lg text-gray-300 mb-1">{currentAgenda.date}</p>
+            <p className="text-sm sm:text-base text-gray-300 mb-0.5">{currentAgenda.date}</p>
             <button
               onClick={() => openMap(currentAgenda.locationKey)}
-              className="text-base font-light text-gray-400 hover:text-violet-400 transition-colors underline cursor-pointer"
+              className="text-xs sm:text-sm font-light text-gray-400 hover:text-violet-400 transition-colors underline cursor-pointer"
             >
               {currentAgenda.location.venue}, {currentAgenda.location.city}
             </button>
           </div>
 
-          <div className="overflow-x-auto">
+          {/* Mobile Card Layout */}
+          <div className="sm:hidden space-y-2">
+            {currentAgenda.agenda.map((item, index) => (
+              <div
+                key={index}
+                className="bg-gray-800/40 rounded-lg p-3 border border-gray-700/50"
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-xs font-medium text-violet-300">
+                    {item.start}
+                    {item.end && item.end !== "end" && (
+                      <span className="text-gray-500"> - {item.end}</span>
+                    )}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {formatDuration(item.duration)}
+                  </span>
+                </div>
+                <p className="text-xs text-white leading-relaxed">{item.activity}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table Layout */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-gray-700">
-                  <th className="pb-3 pr-4 font-semibold text-violet-300 w-32">
+                  <th className="pb-2 pr-3 text-xs sm:text-sm font-semibold text-violet-300 w-24 sm:w-32">
                     Time
                   </th>
-                  <th className="pb-3 pr-4 font-semibold text-violet-300 w-28">
+                  <th className="pb-2 pr-3 text-xs sm:text-sm font-semibold text-violet-300 w-20 sm:w-28">
                     Duration
                   </th>
-                  <th className="pb-3 font-semibold text-violet-300">
+                  <th className="pb-2 text-xs sm:text-sm font-semibold text-violet-300">
                     Activity
                   </th>
                 </tr>
@@ -171,16 +195,16 @@ function RundownKegiatan() {
                     key={index}
                     className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors"
                   >
-                    <td className="py-4 pr-4 text-sm text-gray-300 align-top">
+                    <td className="py-2.5 pr-3 text-xs sm:text-sm text-gray-300 align-top">
                       {item.start}
                       {item.end && item.end !== "end" && (
                         <span className="text-gray-500"> - {item.end}</span>
                       )}
                     </td>
-                    <td className="py-4 pr-4 text-sm text-gray-400 align-top">
+                    <td className="py-2.5 pr-3 text-xs sm:text-sm text-gray-400 align-top">
                       {formatDuration(item.duration)}
                     </td>
-                    <td className="py-4 text-sm text-white">{item.activity}</td>
+                    <td className="py-2.5 text-xs sm:text-sm text-white">{item.activity}</td>
                   </tr>
                 ))}
               </tbody>
@@ -189,7 +213,7 @@ function RundownKegiatan() {
         </div>
       </div>
 
-      <Participants />
+      <Participants embedded />
       <Footer />
     </main>
   );
