@@ -24,10 +24,10 @@ const Hero = () => {
   });
 
   return (
-    <div className="relative min-h-[100svh] w-full overflow-x-hidden">
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
       <div
         id="hero-frame"
-        className="relative z-10 min-h-[100svh] w-full overflow-hidden rounded-lg bg-black"
+        className="relative z-10 w-full h-full overflow-hidden rounded-lg bg-black"
       >
         <img
           src="/img/hero.JPG"
@@ -35,20 +35,21 @@ const Hero = () => {
           className="absolute left-0 top-0 size-full object-contain object-center"
         />
 
+        {/* Mobile-optimized text overlay - uncomment if needed */}
         {/* <div className="absolute left-0 top-0 z-40 size-full">
-          <div className="mt-16 sm:mt-20 md:mt-24 px-4 sm:px-6 md:px-10">
-            <h1 className="special-font hero-heading text-blue-100 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-              <span className="bg-black/90 px-2 py-1">
+          <div className="mt-14 sm:mt-16 md:mt-20 px-3 sm:px-5 md:px-10">
+            <h1 className="special-font hero-heading text-blue-100 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+              <span className="bg-black/90 px-1.5 py-0.5 sm:px-2 sm:py-1">
                 CORPORATE PLA<b>N</b>NING
               </span>
             </h1>
 
-            <p className="mb-5 max-w-64 font-robert-regular text-blue-100 text-sm sm:text-base md:text-lg">
-              <span className="bg-black/90 px-2 py-1 inline-block">
+            <p className="mb-4 max-w-56 sm:max-w-64 font-robert-regular text-blue-100 text-xs sm:text-sm md:text-base">
+              <span className="bg-black/90 px-1.5 py-0.5 sm:px-2 sm:py-1 inline-block">
                 Rooted Responsibility,
               </span>
               <br />
-              <span className="bg-black/90 px-2 py-1 inline-block mt-1">
+              <span className="bg-black/90 px-1.5 py-0.5 sm:px-2 sm:py-1 inline-block mt-0.5 sm:mt-1">
                 Flourishing Transformation
               </span>
             </p>

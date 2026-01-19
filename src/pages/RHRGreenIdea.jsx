@@ -81,108 +81,111 @@ const papers = [
   },
 ];
 
-function RHRGreenIdea() {
+function RHRGreenIdea({ embedded = false }) {
   const [hoveredCard, setHoveredCard] = useState(null);
+
+  const content = (
+    <section className={`relative w-full bg-black ${embedded ? 'py-8 sm:py-12' : 'min-h-screen'}`}>
+      <div className={`container mx-auto px-4 sm:px-5 ${embedded ? '' : 'py-20 sm:py-24'}`}>
+        <div className={`text-center ${embedded ? 'mb-6 sm:mb-8' : 'mb-10 sm:mb-12'}`}>
+          <AnimatedTitle
+            title="Koleksi Publikasi KJPP RHR Green Idea (Corporate Planning 2024)"
+            containerClass={`text-center mb-3 sm:mb-4 ${embedded ? '!text-2xl sm:!text-3xl md:!text-4xl' : ''}`}
+          />
+          <p className={`text-gray-300 mt-3 max-w-3xl mx-auto font-light tracking-wide leading-relaxed ${embedded ? 'text-xs sm:text-sm' : 'text-sm sm:text-base md:text-lg'}`}>
+            A curated collection of sustainability research and green
+            initiatives by KJPP RHR employees, driving innovation in
+            environmental responsibility and corporate sustainability.
+          </p>
+        </div>
+
+        {/* Papers Grid */}
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto ${embedded ? 'mt-6 sm:mt-8' : 'mt-8 sm:mt-12'}`}>
+          {papers.map((paper) => (
+            <div
+              key={paper.id}
+              className="group relative bg-gray-900 border border-gray-800 rounded-lg overflow-hidden transition-all duration-300 hover:border-gray-600"
+              onMouseEnter={() => setHoveredCard(paper.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              {/* Image Container */}
+              <div className={`relative bg-gray-800 overflow-hidden ${embedded ? 'h-32 sm:h-40' : 'h-40 sm:h-48 md:h-56'}`}>
+                <img
+                  src={paper.image}
+                  alt={paper.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    e.target.src =
+                      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%234B5563'%3EResearch Paper%3C/text%3E%3C/svg%3E";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              </div>
+
+              {/* Content */}
+              <div className={`${embedded ? 'p-3 sm:p-4' : 'p-4 sm:p-5'}`}>
+                <h3 className={`text-white font-light tracking-wide mb-1.5 line-clamp-2 ${embedded ? 'text-xs sm:text-sm min-h-[2.5rem]' : 'text-sm sm:text-base min-h-[3rem]'}`}>
+                  {paper.title}
+                </h3>
+
+                <p className={`text-gray-400 font-light tracking-wider mb-3 ${embedded ? 'text-xs' : 'text-xs sm:text-sm'}`}>
+                  by {paper.author}
+                </p>
+
+                {/* Access Button */}
+                <a
+                  href={paper.driveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-1.5 sm:gap-2 text-white bg-transparent border border-gray-700 rounded font-light tracking-wider transition-all duration-300 hover:bg-white hover:text-black hover:border-white ${embedded ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm'}`}
+                >
+                  <svg
+                    className={`${embedded ? 'w-3 h-3' : 'w-3.5 h-3.5 sm:w-4 sm:h-4'}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  Access Paper
+                </a>
+              </div>
+
+              {/* Hover Effect Overlay */}
+              <div
+                className={`absolute inset-0 border-2 border-white rounded-lg pointer-events-none transition-opacity duration-300 ${
+                  hoveredCard === paper.id ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Section */}
+        <div className={`text-center ${embedded ? 'mt-6 sm:mt-8' : 'mt-10 sm:mt-12 pb-6'}`}>
+          <p className="text-gray-500 text-xs sm:text-sm font-light tracking-wide">
+            Contributions from KJPP RHR team members
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+
+  if (embedded) {
+    return content;
+  }
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-black">
       <NavBar />
-
-      {/* Hero Section */}
-      <section className="relative min-h-screen w-full bg-black">
-        <div className="container mx-auto px-5 py-32">
-          <div className="text-center mb-16">
-            <AnimatedTitle
-              title="Koleksi Publikasi KJPP RHR Green Idea (Corporate Planning 2024)"
-              containerClass="text-center mb-8"
-            />
-            <p className="text-gray-300 mt-5 text-xl max-w-3xl mx-auto font-light tracking-wide leading-relaxed">
-              A curated collection of sustainability research and green
-              initiatives by KJPP RHR employees, driving innovation in
-              environmental responsibility and corporate sustainability.
-            </p>
-          </div>
-
-          {/* Papers Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto mt-20">
-            {papers.map((paper) => (
-              <div
-                key={paper.id}
-                className="group relative bg-gray-900 border border-gray-800 rounded-lg overflow-hidden transition-all duration-300 hover:border-gray-600"
-                onMouseEnter={() => setHoveredCard(paper.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-              >
-                {/* Image Container */}
-                <div className="relative h-64 bg-gray-800 overflow-hidden">
-                  <img
-                    src={paper.image}
-                    alt={paper.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.target.src =
-                        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23111827'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='%234B5563'%3EResearch Paper%3C/text%3E%3C/svg%3E";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-white text-lg font-light tracking-wide mb-2 line-clamp-2 min-h-[3.5rem]">
-                    {paper.title}
-                  </h3>
-
-                  <p className="text-gray-400 text-sm font-light tracking-wider mb-4">
-                    by {paper.author}
-                  </p>
-
-                  {/* <p className="text-gray-500 text-sm font-light leading-relaxed mb-6 line-clamp-2">
-                    {paper.description}
-                  </p> */}
-
-                  {/* Access Button */}
-                  <a
-                    href={paper.driveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-white bg-transparent border border-gray-700 px-6 py-2.5 rounded text-sm font-light tracking-wider transition-all duration-300 hover:bg-white hover:text-black hover:border-white"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                    Access Paper
-                  </a>
-                </div>
-
-                {/* Hover Effect Overlay */}
-                <div
-                  className={`absolute inset-0 border-2 border-white rounded-lg pointer-events-none transition-opacity duration-300 ${
-                    hoveredCard === paper.id ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom Section */}
-          <div className="text-center mt-20 pb-10">
-            <p className="text-gray-500 text-sm font-light tracking-wide">
-              Contributions from KJPP RHR team members
-            </p>
-          </div>
-        </div>
-      </section>
-
+      <div className="pt-16 sm:pt-20">
+        {content}
+      </div>
       <Footer />
     </main>
   );

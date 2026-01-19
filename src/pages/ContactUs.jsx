@@ -16,7 +16,7 @@ const Footer = () => (
 // AnimatedTitle Component
 const AnimatedTitle = ({ title, containerClass }) => (
   <div className={containerClass}>
-    <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight">
+    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight">
       {title}
     </h1>
   </div>
@@ -27,9 +27,9 @@ const contacts = [
   {
     id: 1,
     role: "Ketua Panitia",
-    name: "John Doe",
-    phone: "+62 812-3456-7890",
-    email: "john.doe@kjpprhr.com",
+    name: "Naufal Ferdian N",
+    phone: "+62 851-5516-7672",
+    email: "xxx@kjpprhr.com",
     color: "from-blue-600 to-cyan-600",
     icon: "👔",
   },
@@ -52,25 +52,25 @@ function ContactUs() {
       <NavBar />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen w-full bg-black pt-32">
-        <div className="container mx-auto px-5 py-16">
-          <div className="text-center mb-20">
+      <section className="relative min-h-screen w-full bg-black pt-16 sm:pt-20">
+        <div className="container mx-auto px-4 sm:px-5 py-8 sm:py-12">
+          <div className="text-center mb-8 sm:mb-12">
             <AnimatedTitle
               title="Contact Us"
-              containerClass="text-center mb-8"
+              containerClass="text-center mb-4 sm:mb-6"
             />
-            <p className="text-gray-300 mt-5 text-xl max-w-3xl mx-auto font-light tracking-wide leading-relaxed">
+            <p className="text-gray-300 mt-3 text-sm sm:text-base md:text-lg max-w-3xl mx-auto font-light tracking-wide leading-relaxed">
               Get in touch with our event organizers for any inquiries or
               assistance
             </p>
           </div>
 
           {/* Contact Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-32">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto mb-8 sm:mb-12">
             {contacts.map((contact) => (
               <div
                 key={contact.id}
-                className="group relative bg-gray-900 border border-gray-800 rounded-xl overflow-hidden transition-all duration-500 hover:border-gray-600 hover:shadow-2xl hover:shadow-white/10"
+                className="group relative bg-gray-900 border border-gray-800 rounded-lg sm:rounded-xl overflow-hidden transition-all duration-500 hover:border-gray-600 hover:shadow-2xl hover:shadow-white/10"
                 onMouseEnter={() => setHoveredCard(contact.id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
@@ -80,42 +80,42 @@ function ContactUs() {
                 />
 
                 {/* Content */}
-                <div className="relative p-8">
+                <div className="relative p-4 sm:p-5 md:p-6">
                   {/* Icon */}
-                  <div className="text-6xl mb-6 transform group-hover:scale-110 transition-transform duration-500">
+                  <div className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 transform group-hover:scale-110 transition-transform duration-500">
                     {contact.icon}
                   </div>
 
                   {/* Role */}
-                  <h3 className="text-white text-2xl font-light tracking-wide mb-6">
+                  <h3 className="text-white text-lg sm:text-xl md:text-2xl font-light tracking-wide mb-3 sm:mb-4">
                     {contact.role}
                   </h3>
 
                   {/* Contact Information */}
-                  <div className="space-y-4">
+                  <div className="space-y-2 sm:space-y-3">
                     {/* Name */}
-                    <div className="flex items-center gap-3 text-gray-300">
-                      <HiUser className="w-5 h-5 text-gray-500 flex-shrink-0" />
-                      <span className="font-light">{contact.name}</span>
+                    <div className="flex items-center gap-2 sm:gap-3 text-gray-300">
+                      <HiUser className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 flex-shrink-0" />
+                      <span className="font-light text-sm sm:text-base">{contact.name}</span>
                     </div>
 
                     {/* Phone */}
-                    <div className="flex items-center gap-3 text-gray-300">
-                      <HiPhone className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                    <div className="flex items-center gap-2 sm:gap-3 text-gray-300">
+                      <HiPhone className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 flex-shrink-0" />
                       <a
                         href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                        className="font-light hover:text-white transition-colors duration-300"
+                        className="font-light text-sm sm:text-base hover:text-white transition-colors duration-300"
                       >
                         {contact.phone}
                       </a>
                     </div>
 
                     {/* Email */}
-                    <div className="flex items-center gap-3 text-gray-300">
-                      <HiMail className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                    <div className="flex items-center gap-2 sm:gap-3 text-gray-300">
+                      <HiMail className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 flex-shrink-0" />
                       <a
                         href={`mailto:${contact.email}`}
-                        className="font-light hover:text-white transition-colors duration-300 break-all"
+                        className="font-light text-xs sm:text-sm hover:text-white transition-colors duration-300 break-all"
                       >
                         {contact.email}
                       </a>
@@ -123,15 +123,15 @@ function ContactUs() {
                   </div>
 
                   {/* Contact Buttons */}
-                  <div className="mt-8 flex gap-3">
+                  <div className="mt-4 sm:mt-6 flex gap-2 sm:gap-3">
                     <a
                       href={`https://wa.me/${contact.phone.replace(/\D/g, "")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-2 text-white bg-green-600 px-4 py-3 rounded-lg text-sm font-light tracking-wider transition-all duration-300 hover:bg-green-700"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 text-white bg-green-600 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm font-light tracking-wider transition-all duration-300 hover:bg-green-700"
                     >
                       <svg
-                        className="w-4 h-4"
+                        className="w-3.5 h-3.5 sm:w-4 sm:h-4"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -141,9 +141,9 @@ function ContactUs() {
                     </a>
                     <a
                       href={`mailto:${contact.email}`}
-                      className="flex-1 inline-flex items-center justify-center gap-2 text-white bg-transparent border border-gray-700 px-4 py-3 rounded-lg text-sm font-light tracking-wider transition-all duration-300 hover:bg-white hover:text-black hover:border-white"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 text-white bg-transparent border border-gray-700 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm font-light tracking-wider transition-all duration-300 hover:bg-white hover:text-black hover:border-white"
                     >
-                      <HiMail className="w-4 h-4" />
+                      <HiMail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       Email
                     </a>
                   </div>
@@ -151,19 +151,19 @@ function ContactUs() {
 
                 {/* Hover Border Effect */}
                 <div
-                  className={`absolute inset-0 border-2 border-white rounded-xl pointer-events-none transition-opacity duration-300 ${hoveredCard === contact.id ? "opacity-100" : "opacity-0"}`}
+                  className={`absolute inset-0 border-2 border-white rounded-lg sm:rounded-xl pointer-events-none transition-opacity duration-300 ${hoveredCard === contact.id ? "opacity-100" : "opacity-0"}`}
                 />
               </div>
             ))}
           </div>
 
           {/* Additional Information */}
-          <div className="max-w-4xl mx-auto bg-gray-900/50 border border-gray-800 rounded-2xl p-10 mb-16">
+          <div className="max-w-4xl mx-auto bg-gray-900/50 border border-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12">
             <div className="text-center">
-              <h3 className="text-2xl md:text-3xl font-light text-white mb-4">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-light text-white mb-2 sm:mb-3">
                 Need More Information?
               </h3>
-              <p className="text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
+              <p className="text-gray-400 text-xs sm:text-sm font-light leading-relaxed max-w-2xl mx-auto">
                 For general inquiries about the Corporate Planning 2026 event,
                 feel free to reach out to our team. We're here to assist you
                 with any questions regarding the event schedule, venue,

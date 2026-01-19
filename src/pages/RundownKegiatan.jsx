@@ -87,7 +87,7 @@ function RundownKegiatan() {
 
       <div
         ref={heroRef}
-        className="relative mt-16 sm:mt-20 flex min-h-[40vh] sm:min-h-[50vh] w-screen flex-col items-center justify-center overflow-hidden py-8 sm:py-12"
+        className="relative mt-14 sm:mt-16 flex min-h-[35vh] sm:min-h-[45vh] w-screen flex-col items-center justify-center overflow-hidden py-6 sm:py-10"
       >
         <div className="px-4 text-center sm:px-10">
           <div className="text-center mb-6 sm:mb-10">
