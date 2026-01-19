@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { TiLocationArrow } from "react-icons/ti";
 
 export const BentoTilt = ({ children, className = "" }) => {
   const [transformStyle, setTransformStyle] = useState("");
@@ -38,24 +37,7 @@ export const BentoTilt = ({ children, className = "" }) => {
   );
 };
 
-export const BentoCard = ({ src, title, description, isComingSoon }) => {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [hoverOpacity, setHoverOpacity] = useState(0);
-  const hoverButtonRef = useRef(null);
-
-  const handleMouseMove = (event) => {
-    if (!hoverButtonRef.current) return;
-    const rect = hoverButtonRef.current.getBoundingClientRect();
-
-    setCursorPosition({
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    });
-  };
-
-  const handleMouseEnter = () => setHoverOpacity(1);
-  const handleMouseLeave = () => setHoverOpacity(0);
-
+export const BentoCard = ({ src, title, description }) => {
   return (
     <div className="relative size-full">
       <video
@@ -67,7 +49,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
       />
       <div className="relative z-10 flex size-full flex-col justify-between p-5 text-blue-50">
         <div>
-          <h1 className="bento-title special-font">{title}</h1>
+          <h1 className="special-font bento-title">{title}</h1>
           {description && (
             <p className="mt-3 max-w-64 text-xs md:text-base">{description}</p>
           )}
@@ -82,9 +64,9 @@ const Features = () => (
     <div className="container mx-auto px-3 md:px-10">
       <div className="px-5 py-16 md:py-32">
         <h3 className="font-circular-web text-base md:text-lg text-blue-50">
-          "Pertumbuhan kita bukan hanya soal angka, tapi tanggung jawab. Melalui
+          Pertumbuhan kita bukan hanya soal angka, tapi tanggung jawab. Melalui
           setiap tindakan kecil, kita membangun dampak yang tak terhapuskan bagi
-          industri dan masyarakat"
+          industri dan masyarakat
         </h3>
       </div>
 
@@ -93,7 +75,6 @@ const Features = () => (
           src="videos/solo.mp4"
           title={<>TOPIC</>}
           description=""
-          isComingSoon
         />
       </BentoTilt>
 
@@ -106,7 +87,6 @@ const Features = () => (
             </>
           }
           description=""
-          isComingSoon
         />
       </BentoTilt>
 
@@ -119,7 +99,6 @@ const Features = () => (
             </>
           }
           description=""
-          isComingSoon
         />
       </BentoTilt>
     </div>

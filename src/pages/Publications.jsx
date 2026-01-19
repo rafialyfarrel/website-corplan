@@ -1,19 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import RHRGreenIdea from "./RHRGreenIdea";
-import NavBar from "../components/Navbar";
-import AnimatedTitle from "../components/AnimatedTitle";
-
-// Footer Component
-const Footer = () => (
-  <footer className="bg-black border-t border-gray-800 py-8">
-    <div className="container mx-auto px-5 text-center">
-      <p className="text-gray-500 text-sm font-light tracking-wide">
-        © 2026 KJPP RHR. All rights reserved.
-      </p>
-    </div>
-  </footer>
-);
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import AnimatedTitle from "../components/common/AnimatedTitle";
 
 const publications = [
   {
@@ -104,10 +94,10 @@ function RHRPublication() {
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-black">
-      <NavBar />
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="relative w-full bg-black pt-14 sm:pt-16">
+      <section className="relative w-full bg-black pt-2 sm:pt-16">
         <div ref={heroRef} className="container mx-auto px-4 sm:px-5 py-8 sm:py-12">
           <div className="text-center mb-8 sm:mb-12">
             <AnimatedTitle

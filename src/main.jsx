@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
-import RundownKegiatan from "./pages/RundownKegiatan.jsx";
+import Event from "./pages/Event.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import RHRGreenIdea from "./pages/RHRGreenIdea.jsx";
@@ -15,7 +15,7 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/rundown-kegiatan" element={<RundownKegiatan />} />
+        <Route path="/rundown-kegiatan" element={<Event />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/rhr-green-idea" element={<RHRGreenIdea />} />

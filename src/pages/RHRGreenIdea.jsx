@@ -1,7 +1,7 @@
 import { useState } from "react";
-import NavBar from "../components/Navbar";
-import Footer from "../components/Footer";
-import AnimatedTitle from "../components/AnimatedTitle";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import AnimatedTitle from "../components/common/AnimatedTitle";
 
 // Sample data for papers - replace with actual data
 const papers = [
@@ -182,7 +182,7 @@ function RHRGreenIdea({ embedded = false }) {
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-black">
-      <NavBar />
+      <Navbar />
       <div className="pt-14 sm:pt-16">
         {content}
       </div>

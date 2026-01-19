@@ -1,18 +1,12 @@
-import { useState } from "react";
-import NavBar from "../components/Navbar";
-import AnimatedTitle from "../components/AnimatedTitle";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import AnimatedTitle from "../components/common/AnimatedTitle";
 import { HiPhone, HiMail, HiUser } from "react-icons/hi";
 
-// Footer Component
-const Footer = () => (
-  <footer className="bg-black border-t border-gray-800 py-8">
-    <div className="container mx-auto px-5 text-center">
-      <p className="text-gray-500 text-sm font-light tracking-wide">
-        © 2026 KJPP RHR. All rights reserved.
-      </p>
-    </div>
-  </footer>
-);
+gsap.registerPlugin(ScrollTrigger);
 
 // Contact data structure
 const contacts = [
@@ -38,15 +32,53 @@ const contacts = [
 
 function ContactUs() {
   const [hoveredCard, setHoveredCard] = useState(null);
+  const heroRef = useRef(null);
+  const cardsRef = useRef(null);
+  const infoRef = useRef(null);
+
+  // Page load animation (same as Publications and Event page)
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero animation on page load
+      gsap.from(heroRef.current, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      // Scroll-triggered animations for sections
+      const sections = [cardsRef.current, infoRef.current];
+
+      sections.forEach((section) => {
+        if (section) {
+          gsap.from(section, {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              end: "bottom 20%",
+              toggleActions: "play none none none",
+            },
+          });
+        }
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-black">
-      <NavBar />
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen w-full bg-black pt-14 sm:pt-16">
+      <section className="relative min-h-screen w-full bg-black pt-2 sm:pt-16">
         <div className="container mx-auto px-4 sm:px-5 py-8 sm:py-12">
-          <div className="text-center mb-8 sm:mb-12">
+          <div ref={heroRef} className="text-center mb-8 sm:mb-12">
             <AnimatedTitle
               title="Contact Us"
               containerClass="text-center mb-4 sm:mb-6"
@@ -58,7 +90,7 @@ function ContactUs() {
           </div>
 
           {/* Contact Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto mb-8 sm:mb-12">
+          <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto mb-8 sm:mb-12">
             {contacts.map((contact) => (
               <div
                 key={contact.id}
@@ -74,7 +106,7 @@ function ContactUs() {
                 {/* Content */}
                 <div className="relative p-4 sm:p-5 md:p-6">
                   {/* Icon */}
-                  <div className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 transform group-hover:scale-110 transition-transform duration-500">
+                  <div className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4">
                     {contact.icon}
                   </div>
 
@@ -150,7 +182,7 @@ function ContactUs() {
           </div>
 
           {/* Additional Information */}
-          <div className="max-w-4xl mx-auto bg-gray-900/50 border border-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12">
+          <div ref={infoRef} className="max-w-4xl mx-auto bg-gray-900/50 border border-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12">
             <div className="text-center">
               <h3 className="text-lg sm:text-xl md:text-2xl font-light text-white mb-2 sm:mb-3">
                 Need More Information?
