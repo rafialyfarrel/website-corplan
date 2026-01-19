@@ -90,7 +90,7 @@ function Gallery() {
       <NavBar />
 
       {/* Gallery Corplan Section */}
-      <section className="relative w-full bg-black pt-16 sm:pt-20">
+      <section className="relative w-full bg-black pt-14 sm:pt-16">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30" />
 
         <div

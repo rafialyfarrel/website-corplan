@@ -9,6 +9,7 @@ import rundownData from "../../rundown_kegiatan_rev1.json";
 import Participants from "./DaftarPeserta";
 import pembagiankamarData from "../../pembagian_kamar.json";
 import pembagianTeamData from "../../performance_team.json";
+import galaAwardsData from "../../gala_awards_2026.json";
 
 
 // ===== Helpers =====
@@ -68,9 +69,22 @@ function RundownKegiatan() {
   const [selectedDay, setSelectedDay] = useState("pra");
 
   // ===============================
-  // Performance Team accordion
+  // Rundown pagination
+  // ===============================
+  const [rundownPage, setRundownPage] = useState(1);
+  const rundownItemsPerPage = 6;
+
+  // Reset rundown page when day changes
+  useEffect(() => {
+    setRundownPage(1);
+  }, [selectedDay]);
+
+  // ===============================
+  // Performance Team accordion + pagination
   // ===============================
   const [openTeamKey, setOpenTeamKey] = useState(null);
+  const [teamPage, setTeamPage] = useState(1);
+  const teamItemsPerPage = 6;
 
   const teamKeys = useMemo(() => {
     // Sort: Kelompok 1, 2, 3, ... 12
@@ -84,6 +98,11 @@ function RundownKegiatan() {
       return na - nb;
     });
   }, []);
+
+  const teamTotalPages = Math.ceil(teamKeys.length / teamItemsPerPage) || 1;
+  const teamStartIndex = (teamPage - 1) * teamItemsPerPage;
+  const teamEndIndex = teamStartIndex + teamItemsPerPage;
+  const currentTeamKeys = teamKeys.slice(teamStartIndex, teamEndIndex);
 
   // Pembagian Kamar filter + pagination
   const [selectedRoomGroup, setSelectedRoomGroup] = useState("Partner");
@@ -185,7 +204,7 @@ function RundownKegiatan() {
 
       <div
         ref={heroRef}
-        className="relative mt-14 sm:mt-16 flex min-h-[35vh] sm:min-h-[45vh] w-screen flex-col items-center justify-center overflow-hidden py-6 sm:py-10"
+        className="relative mt-12 sm:mt-14 flex min-h-[30vh] sm:min-h-[40vh] w-screen flex-col items-center justify-center overflow-hidden py-4 sm:py-8"
       >
         <div className="px-4 text-center sm:px-10">
           <div className="text-center mb-6 sm:mb-10">
@@ -223,7 +242,7 @@ function RundownKegiatan() {
           >
             Pra Corplan
           </button>
-          {corporate_planning.days.map((day, index) => (
+          {corporate_planning.days.map((_, index) => (
             <button
               key={index}
               onClick={() => setSelectedDay(`day${index + 1}`)}
@@ -238,87 +257,154 @@ function RundownKegiatan() {
           ))}
         </div>
 
-        <div className="rounded-xl sm:rounded-2xl bg-gradient-to-b from-gray-900/80 to-black/80 p-3 sm:p-5 backdrop-blur-sm border border-gray-800">
-          <div className="mb-3 sm:mb-5">
-            <h3 className="text-lg sm:text-xl font-bold text-white mb-1">
-              {currentAgenda.day}
-            </h3>
-            <p className="text-sm sm:text-base text-gray-300 mb-0.5">
-              {currentAgenda.date}
-            </p>
-            <button
-              onClick={() => openMap(currentAgenda.locationKey)}
-              className="text-xs sm:text-sm font-light text-gray-400 hover:text-white transition-colors underline cursor-pointer"
-            >
-              {currentAgenda.location.venue}, {currentAgenda.location.city}
-            </button>
-          </div>
+        {/* Count */}
+        {(() => {
+          const rundownTotalPages = Math.ceil(currentAgenda.agenda.length / rundownItemsPerPage) || 1;
+          const rundownStartIndex = (rundownPage - 1) * rundownItemsPerPage;
+          const rundownEndIndex = rundownStartIndex + rundownItemsPerPage;
+          const currentRundownItems = currentAgenda.agenda.slice(rundownStartIndex, rundownEndIndex);
 
-          {/* Mobile Card Layout */}
-          <div className="sm:hidden space-y-2">
-            {currentAgenda.agenda.map((item, index) => (
-              <div
-                key={index}
-                className="bg-gray-800/40 rounded-lg p-3 border border-gray-700/50"
-              >
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-medium text-white">
-                    {item.start}
-                    {item.end && item.end !== "end" && (
-                      <span className="text-gray-500"> - {item.end}</span>
-                    )}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {formatDuration(item.duration)}
-                  </span>
-                </div>
-                <p className="text-xs text-white leading-relaxed">
-                  {item.activity}
+          return (
+            <>
+              <div className="mb-3 sm:mb-5">
+                <p className="text-gray-400 text-xs sm:text-sm">
+                  Showing {currentAgenda.agenda.length === 0 ? 0 : rundownStartIndex + 1}-
+                  {Math.min(rundownEndIndex, currentAgenda.agenda.length)} of {currentAgenda.agenda.length} activities
                 </p>
               </div>
-            ))}
-          </div>
 
-          {/* Desktop Table Layout */}
-          <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-gray-700">
-                  <th className="pb-2 pr-3 text-xs sm:text-sm font-semibold text-white w-24 sm:w-32">
-                    Time
-                  </th>
-                  <th className="pb-2 pr-3 text-xs sm:text-sm font-semibold text-white w-20 sm:w-28">
-                    Duration
-                  </th>
-                  <th className="pb-2 text-xs sm:text-sm font-semibold text-white">
-                    Activity
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentAgenda.agenda.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors"
+              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-b from-gray-900/80 to-black/80 p-3 sm:p-5 backdrop-blur-sm border border-gray-800">
+                <div className="mb-3 sm:mb-5">
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-1">
+                    {currentAgenda.day}
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-300 mb-0.5">
+                    {currentAgenda.date}
+                  </p>
+                  <button
+                    onClick={() => openMap(currentAgenda.locationKey)}
+                    className="text-xs sm:text-sm font-light text-gray-400 hover:text-white transition-colors underline cursor-pointer"
                   >
-                    <td className="py-2.5 pr-3 text-xs sm:text-sm text-gray-300 align-top">
-                      {item.start}
-                      {item.end && item.end !== "end" && (
-                        <span className="text-gray-500"> - {item.end}</span>
-                      )}
-                    </td>
-                    <td className="py-2.5 pr-3 text-xs sm:text-sm text-gray-400 align-top">
-                      {formatDuration(item.duration)}
-                    </td>
-                    <td className="py-2.5 text-xs sm:text-sm text-white">
-                      {item.activity}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                    {currentAgenda.location.venue}, {currentAgenda.location.city}
+                  </button>
+                </div>
+
+                {/* Mobile Card Layout */}
+                <div className="sm:hidden space-y-2">
+                  {currentRundownItems.map((item, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-800/40 rounded-lg p-3 border border-gray-700/50"
+                    >
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs font-medium text-white">
+                          {item.start}
+                          {item.end && item.end !== "end" && (
+                            <span className="text-gray-500"> - {item.end}</span>
+                          )}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {formatDuration(item.duration)}
+                        </span>
+                      </div>
+                      <p className="text-xs text-white leading-relaxed">
+                        {item.activity}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop Table Layout */}
+                <div className="hidden sm:block overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="border-b border-gray-700">
+                        <th className="pb-2 pr-3 text-xs sm:text-sm font-semibold text-white w-24 sm:w-32">
+                          Time
+                        </th>
+                        <th className="pb-2 pr-3 text-xs sm:text-sm font-semibold text-white w-20 sm:w-28">
+                          Duration
+                        </th>
+                        <th className="pb-2 text-xs sm:text-sm font-semibold text-white">
+                          Activity
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentRundownItems.map((item, index) => (
+                        <tr
+                          key={index}
+                          className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors"
+                        >
+                          <td className="py-2.5 pr-3 text-xs sm:text-sm text-gray-300 align-top">
+                            {item.start}
+                            {item.end && item.end !== "end" && (
+                              <span className="text-gray-500"> - {item.end}</span>
+                            )}
+                          </td>
+                          <td className="py-2.5 pr-3 text-xs sm:text-sm text-gray-400 align-top">
+                            {formatDuration(item.duration)}
+                          </td>
+                          <td className="py-2.5 text-xs sm:text-sm text-white">
+                            {item.activity}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Pagination */}
+              {currentAgenda.agenda.length > 0 && (
+                <div className="flex justify-center items-center gap-1 sm:gap-2 mt-4 sm:mt-6">
+                  <button
+                    onClick={() => setRundownPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={rundownPage === 1}
+                    className={`px-2 py-1.5 sm:px-3 sm:py-2 rounded text-xs sm:text-sm transition-all ${
+                      rundownPage === 1
+                        ? "bg-gray-900 text-gray-600 cursor-not-allowed"
+                        : "bg-gray-800 text-white hover:bg-gray-700"
+                    }`}
+                  >
+                    Prev
+                  </button>
+
+                  {getPageNumbers(rundownPage, rundownTotalPages).map((page, index) => (
+                    <button
+                      key={index}
+                      onClick={() => typeof page === "number" && setRundownPage(page)}
+                      disabled={page === "..."}
+                      className={`px-2.5 py-1.5 sm:px-3 sm:py-2 rounded text-xs sm:text-sm transition-all ${
+                        page === rundownPage
+                          ? "bg-white text-black"
+                          : page === "..."
+                          ? "bg-transparent text-gray-600 cursor-default"
+                          : "bg-gray-800 text-white hover:bg-gray-700"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+
+                  <button
+                    onClick={() =>
+                      setRundownPage((prev) => Math.min(prev + 1, rundownTotalPages))
+                    }
+                    disabled={rundownPage === rundownTotalPages}
+                    className={`px-2 py-1.5 sm:px-3 sm:py-2 rounded text-xs sm:text-sm transition-all ${
+                      rundownPage === rundownTotalPages
+                        ? "bg-gray-900 text-gray-600 cursor-not-allowed"
+                        : "bg-gray-800 text-white hover:bg-gray-700"
+                    }`}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
+          );
+        })()}
       </div>
 
       {/* Performance Team Section (UPDATED) */}
@@ -333,6 +419,14 @@ function RundownKegiatan() {
           </p>
         </div>
 
+        {/* Count */}
+        <div className="mb-3 sm:mb-5">
+          <p className="text-gray-400 text-xs sm:text-sm">
+            Showing {teamKeys.length === 0 ? 0 : teamStartIndex + 1}-
+            {Math.min(teamEndIndex, teamKeys.length)} of {teamKeys.length} teams
+          </p>
+        </div>
+
         <div className="rounded-xl sm:rounded-2xl bg-gradient-to-b from-gray-900/80 to-black/80 p-3 sm:p-5 backdrop-blur-sm border border-gray-800">
           {teamKeys.length === 0 ? (
             <div className="bg-gray-800/40 rounded-lg p-3 border border-gray-700/50">
@@ -342,7 +436,7 @@ function RundownKegiatan() {
             </div>
           ) : (
             <div className="space-y-2">
-              {teamKeys.map((key) => {
+              {currentTeamKeys.map((key) => {
                 const members = pembagianTeamData[key] || [];
                 const isOpen = openTeamKey === key;
 
@@ -406,6 +500,54 @@ function RundownKegiatan() {
             </div>
           )}
         </div>
+
+        {/* Pagination */}
+        {teamKeys.length > 0 && (
+          <div className="flex justify-center items-center gap-1 sm:gap-2 mt-4 sm:mt-6">
+            <button
+              onClick={() => setTeamPage((prev) => Math.max(prev - 1, 1))}
+              disabled={teamPage === 1}
+              className={`px-2 py-1.5 sm:px-3 sm:py-2 rounded text-xs sm:text-sm transition-all ${
+                teamPage === 1
+                  ? "bg-gray-900 text-gray-600 cursor-not-allowed"
+                  : "bg-gray-800 text-white hover:bg-gray-700"
+              }`}
+            >
+              Prev
+            </button>
+
+            {getPageNumbers(teamPage, teamTotalPages).map((page, index) => (
+              <button
+                key={index}
+                onClick={() => typeof page === "number" && setTeamPage(page)}
+                disabled={page === "..."}
+                className={`px-2.5 py-1.5 sm:px-3 sm:py-2 rounded text-xs sm:text-sm transition-all ${
+                  page === teamPage
+                    ? "bg-white text-black"
+                    : page === "..."
+                    ? "bg-transparent text-gray-600 cursor-default"
+                    : "bg-gray-800 text-white hover:bg-gray-700"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() =>
+                setTeamPage((prev) => Math.min(prev + 1, teamTotalPages))
+              }
+              disabled={teamPage === teamTotalPages}
+              className={`px-2 py-1.5 sm:px-3 sm:py-2 rounded text-xs sm:text-sm transition-all ${
+                teamPage === teamTotalPages
+                  ? "bg-gray-900 text-gray-600 cursor-not-allowed"
+                  : "bg-gray-800 text-white hover:bg-gray-700"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
 
 
@@ -611,7 +753,7 @@ function RundownKegiatan() {
         <Participants embedded />
       </div>
 
-      {/* Gala Awards 2026 Section (unchanged) */}
+      {/* Gala Awards 2026 Section */}
       <div className="relative z-10 mx-auto max-w-6xl px-4 pb-12 sm:px-10 sm:pb-16">
         <div className="text-center mb-6 sm:mb-12">
           <AnimatedTitle
@@ -624,20 +766,25 @@ function RundownKegiatan() {
         </div>
 
         <div className="rounded-xl sm:rounded-2xl bg-gradient-to-b from-gray-900/80 to-black/80 p-3 sm:p-5 backdrop-blur-sm border border-gray-800">
+          {/* Mobile Card Layout */}
           <div className="sm:hidden space-y-2">
-            <div className="bg-gray-800/40 rounded-lg p-3 border border-gray-700/50">
-              <p className="text-xs text-white font-medium mb-1">Kategori 1</p>
-              <p className="text-xs text-white">
-                Informasi pemenang akan diumumkan saat acara
-              </p>
-            </div>
+            {Object.entries(galaAwardsData).map(([category, data], index) => (
+              <div
+                key={index}
+                className="bg-gray-800/40 rounded-lg p-3 border border-gray-700/50"
+              >
+                <p className="text-xs text-white font-medium mb-1">{category}</p>
+                <p className="text-xs text-yellow-400">🏆 {data.winner}</p>
+              </div>
+            ))}
           </div>
 
+          {/* Desktop Table Layout */}
           <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-gray-700">
-                  <th className="pb-2 pr-3 text-xs sm:text-sm font-semibold text-white w-48">
+                  <th className="pb-2 pr-3 text-xs sm:text-sm font-semibold text-white">
                     Kategori
                   </th>
                   <th className="pb-2 text-xs sm:text-sm font-semibold text-white">
@@ -646,14 +793,19 @@ function RundownKegiatan() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
-                  <td className="py-2.5 pr-3 text-xs sm:text-sm text-gray-300 align-top">
-                    -
-                  </td>
-                  <td className="py-2.5 text-xs sm:text-sm text-white">
-                    Akan diumumkan saat acara
-                  </td>
-                </tr>
+                {Object.entries(galaAwardsData).map(([category, data], index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors"
+                  >
+                    <td className="py-2.5 pr-3 text-xs sm:text-sm text-gray-300 align-top">
+                      {category}
+                    </td>
+                    <td className="py-2.5 text-xs sm:text-sm text-yellow-400">
+                      🏆 {data.winner}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

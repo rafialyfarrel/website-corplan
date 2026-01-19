@@ -2,21 +2,10 @@ import clsx from "clsx";
 
 const AnimatedTitle = ({ title, containerClass }) => {
   return (
-    <div className={clsx("animated-title", containerClass)}>
-      {title.split("<br />").map((line, index) => (
-        <div
-          key={index}
-          className="flex-center max-w-full flex-wrap gap-2 px-10 md:gap-3"
-        >
-          {line.split(" ").map((word, idx) => (
-            <span
-              key={idx}
-              className="animated-word"
-              dangerouslySetInnerHTML={{ __html: word }}
-            />
-          ))}
-        </div>
-      ))}
+    <div className={clsx(containerClass)}>
+      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight">
+        {title}
+      </h1>
     </div>
   );
 };

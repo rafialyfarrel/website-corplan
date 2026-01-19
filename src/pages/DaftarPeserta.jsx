@@ -101,7 +101,7 @@ function Participants({ embedded = false }) {
   };
 
   const content = (
-    <div className={`bg-black text-white ${embedded ? "" : "min-h-screen pt-16 pb-16"}`}>
+    <div className={`bg-black text-white ${embedded ? "" : "min-h-screen pt-14 pb-16"}`}>
       {/* Hero Section */}
       <div className={`text-center ${embedded ? "mb-6 sm:mb-12" : "container mx-auto px-4 mb-12"}`}>
         <AnimatedTitle

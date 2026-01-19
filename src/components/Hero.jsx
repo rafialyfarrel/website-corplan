@@ -1,28 +1,4 @@
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/all";
-
-gsap.registerPlugin(ScrollTrigger);
-
 const Hero = () => {
-  useGSAP(() => {
-    gsap.set("#hero-frame", {
-      clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
-      borderRadius: "0% 0% 40% 10%",
-    });
-    gsap.from("#hero-frame", {
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      borderRadius: "0% 0% 0% 0%",
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: "#hero-frame",
-        start: "center center",
-        end: "bottom center",
-        scrub: true,
-      },
-    });
-  });
-
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
       <div

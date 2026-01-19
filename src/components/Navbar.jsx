@@ -199,7 +199,11 @@ const NavBar = () => {
             <div className="flex h-full items-center">
               <div className="hidden md:block">
                 {navItems.map((item, index) => (
-                  <Link key={index} to={item.path} className="nav-hover-btn">
+                  <Link
+                    key={index}
+                    to={item.path}
+                    className="ms-6 lg:ms-10 text-sm lg:text-base font-bold text-white tracking-tight hover:text-yellow-300 transition-colors duration-300"
+                  >
                     {item.name}
                   </Link>
                 ))}
@@ -240,7 +244,7 @@ const NavBar = () => {
                     "scale-110": isActive,
                   })}
                 />
-                <span className="text-xs font-medium">{item.name}</span>
+                <span className="text-xs font-bold tracking-tight">{item.name}</span>
               </Link>
             );
           })}

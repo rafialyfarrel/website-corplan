@@ -1,5 +1,6 @@
 import { useState } from "react";
 import NavBar from "../components/Navbar";
+import AnimatedTitle from "../components/AnimatedTitle";
 import { HiPhone, HiMail, HiUser } from "react-icons/hi";
 
 // Footer Component
@@ -11,15 +12,6 @@ const Footer = () => (
       </p>
     </div>
   </footer>
-);
-
-// AnimatedTitle Component
-const AnimatedTitle = ({ title, containerClass }) => (
-  <div className={containerClass}>
-    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight">
-      {title}
-    </h1>
-  </div>
 );
 
 // Contact data structure
@@ -36,9 +28,9 @@ const contacts = [
   {
     id: 2,
     role: "Acara",
-    name: "Jane Smith",
-    phone: "+62 821-9876-5432",
-    email: "jane.smith@kjpprhr.com",
+    name: "Rahmantoro",
+    phone: "+62 856-9363-3150",
+    email: "xxx@kjpprhr.com",
     color: "from-purple-600 to-pink-600",
     icon: "📋",
   },
@@ -52,7 +44,7 @@ function ContactUs() {
       <NavBar />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen w-full bg-black pt-16 sm:pt-20">
+      <section className="relative min-h-screen w-full bg-black pt-14 sm:pt-16">
         <div className="container mx-auto px-4 sm:px-5 py-8 sm:py-12">
           <div className="text-center mb-8 sm:mb-12">
             <AnimatedTitle

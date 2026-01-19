@@ -183,7 +183,7 @@ function RHRGreenIdea({ embedded = false }) {
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-black">
       <NavBar />
-      <div className="pt-16 sm:pt-20">
+      <div className="pt-14 sm:pt-16">
         {content}
       </div>
       <Footer />
